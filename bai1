@@ -1,0 +1,104 @@
+import "dart:math";
+abstract class HinhHoc{
+  double? dienTich;
+  double? chuVi;
+  
+  double tinhDienTich();
+  double tinhChuVi();
+ 
+}
+
+class HinhVuong extends HinhHoc{
+  double doDaiCanh = 0;
+
+  @override
+  double tinhDienTich() {
+     dienTich = doDaiCanh*doDaiCanh;
+     return dienTich??0;
+  }
+  
+  @override
+  double tinhChuVi() {
+      chuVi = doDaiCanh*4;
+      return chuVi??0;
+  }
+  
+}
+
+class HinhTamGiac extends HinhHoc{
+  double a = 0;
+  double b = 0;
+  double c = 0;
+  
+  bool kiemTraTamGiac() => (a+b>c) && (b+c>a) && (a+c>b);
+
+  @override
+  double tinhDienTich() {
+      if (!kiemTraTamGiac()) {
+          print("Không thể tính diện tích tam giác vì độ dài không hợp lệ");
+          return 0;
+      }
+      double p = (a+b+c)/2;
+      dienTich =  sqrt(p*(p-a)*(p-b)*(p-c));
+      return dienTich??0;
+  }
+  @override
+  double tinhChuVi() {
+      if (!kiemTraTamGiac()) {
+          print("Không thể tính chu vi tam giác vì độ dài không hợp lệ");
+          return 0;
+      }
+      chuVi = a+b+c;
+      return chuVi??0;
+  }
+}
+
+class HinhTron extends HinhHoc{
+  double duongKinh = 0;
+  double banKinh = 0;
+  
+  @override
+  double tinhChuVi() {
+    if (banKinh!=0) {
+      chuVi = 2*pi*banKinh;
+    }else { 
+      chuVi = pi*duongKinh; 
+    }
+    return chuVi??0;
+  }
+  @override
+  double tinhDienTich() {
+    if (banKinh != 0) {
+      dienTich = pi*pow(banKinh,2);
+    } else {
+      dienTich = pi*pow((duongKinh/2),2);
+    }
+    return dienTich??0;
+  }
+  
+  
+}
+void main(){
+  HinhVuong hv = HinhVuong();
+  hv.doDaiCanh = 2;
+  
+  HinhTamGiac htg = HinhTamGiac();
+  htg.a = 3;
+  htg.b = 5;
+  htg.c= 6;
+  
+  HinhTron ht = HinhTron();
+  ht.banKinh = 5;
+  
+  print("Dien tich hinh vuong la: ${hv.tinhDienTich()}");
+  print("Chu vi hinh vuong la: ${hv.tinhChuVi()}");
+  print('');
+  
+  print("Dien tich hinh tam giac la: ${htg.tinhDienTich()}");
+  print("Chu vi hinh tam giac la: ${htg.tinhChuVi()}");
+  print('');
+  
+  print("Dien tich hinh tron la: ${ht.tinhDienTich()}");
+  print("Chu vi hinh tron la: ${ht.tinhChuVi()}");
+  print('');
+}
